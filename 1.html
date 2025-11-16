@@ -1,30 +1,15 @@
-<!doctype html>
-<html>
-<head>
-    <title>WEB1 - html</title> <!-- 웹페이지 자체 제목 태그 -->
-    <meta charset="utf-8"> <!-- utf-8로 문서를 읽어라 -->
-</head>
+from flask import Flask, Response
+import requests
 
-<body>
-    <h1><a href="index.html">WEB</a></h1>
-    <ol>
-        <li><a href="1.html">HTML</a></li>
-        <li><a href="2.html">CSS</a></li>
-        <li><a href="3.html">JavaScript</a></li>
-    </ol>
-    <!-- ul이랑 ol은 li의 부모 태그, ol은 자동으로 순서를 표기해줌 -->
+app = Flask(__name__)
 
-    <h2>HTML</h2> <!-- 제목태그 -->
-
-    <!-- p는 단락을 나타내는 태그 (문단), <br>은 줄바꿈 -->
-    <p><a href="https://www.w3.org/TR/2011/WD-html5-20110405/" target="_blank" title="html5">Hypertext Markup Language (HTML)</a> is the standard markup language for <strong>creating <u>web</u> pages</strong> and web applications.
-    Web browsers receive HTML documents from a web server or from local storage and render them into multimedia web pages.
-    HTML describes the structure of a web page semantically and originally included cues for the apperance of the document.</p>
-
-    <img src="coding.jpg" width="100%">
-    <!-- 이미지태그 -->
-
-    <p style="margin-top:40px">HTML elements are the building blocks of HTML pages. With HTML constructs, images and other objects, such as interactive forms, may be embedded into the rendered page. It probicdes a means to create structured documents by denoting structural semantics for text such as headings, paragraphs, lists, links, quotes and other items. HTML elements are delineated by tags, wirtten using angle brackets.</p>
-    <!-- style은 css. 위쪽을 40픽셀만큼 띄운다, p태그는 간격이 정해져있기 때문 -->
-</body>
-</html>
+@app.route('/')
+def proxy():
+    url = "https://48c68b5c3059f281.chal.ctf.ae/flag.txt"
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "https://48c68b5c3059f281.chal.ctf.ae/",
+        "Origin": "https://48c68b5c3059f281.chal.ctf.ae/"
+    }
+    r = requests.get(url, headers=headers)
+    return Response(r.content, status=r.status_code, content_type="text/plain")
